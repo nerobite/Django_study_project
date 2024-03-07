@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from django.core.paginator import Paginator
+from django.shortcuts import render, reverse
+import pandas as pd
 
 DATA = {
     'omlet': {
@@ -28,3 +30,26 @@ DATA = {
 #     'ингредиент2': количество2,
 #   }
 # }
+def recipe_view(request, recipe_name):
+    # Проверяем, существует ли запрашиваемый рецепт в DATA
+    servings = int(request.GET.get('servings', 1))
+    if recipe_name in DATA:
+        recipe = {ingredient: amount * servings for ingredient, amount in DATA[recipe_name].items()}
+    else:
+        # Если рецепт не найден, возвращаем пустой словарь
+        recipe = {}
+    context = {
+        'recipe': recipe,
+        'recipe_name': recipe_name,
+        'servings': servings
+    }
+    return render(request,'calculator/index.html', context)
+
+def hello_view(request):
+    context ={
+        'hello':'Hello Django world'
+    }
+    return render(request,'calculator/hello.html', context)
+
+
+

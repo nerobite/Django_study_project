@@ -43,10 +43,3 @@ def books_view(request, pub_date=None):
     return render(request, template, context)
 
 
-def book_list_view(request):
-    template_name = 'books/books_list.html'
-    books = Book.objects.all() # Используем модель Book для получения всех книг
-    context = {
-        'books': books
-    }
-    return render(request, template_name, context)

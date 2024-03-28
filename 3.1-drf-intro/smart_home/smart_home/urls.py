@@ -15,8 +15,27 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from measurement.views import SensorListCreateView
+from measurement.views import SensorCreateView, SensorListView, SensorUpdateView, MeasurementCreateView, SensorRetrieveView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('measurement.urls')),  # подключаем маршруты из приложения measurement
+    path('api/', include('measurement.urls')),
+    path('home/', SensorListCreateView.as_view(), name='sensor-list-create'),
+    path('sensors/', SensorListView.as_view(), name='sensor-list'),
+    path('sensors/create/', SensorCreateView.as_view(), name='sensor-create'),
+    path('sensors/<int:pk>/', SensorUpdateView.as_view(), name='sensor-update'),
+    path('sensors/<int:pk>/', SensorRetrieveView.as_view(), name='sensor-retrieve'),
+    path('measurements/create/', MeasurementCreateView.as_view(), name='measurement-create'),
 ]
+
+# urlpatterns = [
+#     path('admin/', admin.site.urls),
+#     path('api/', include('measurement.urls')), # -- не знаю почему, но маршруты не работают, прописал в ручную--
+#     path('home/', SensorListCreateView.as_view(), name='sensor-list-create'),
+#     path('sensors/', SensorListView.as_view(), name='sensor-list'),
+#     path('sensors/create/', SensorCreateView.as_view(), name='sensor-create'),
+#     path('sensors/<int:pk>/', SensorUpdateView.as_view(), name='sensor-update'),
+#     path('sensors/<int:pk>/', SensorRetrieveView.as_view(), name='sensor-retrieve'),
+#     path('measurements/create/', MeasurementCreateView.as_view(), name='measurement-create'),
+# ]
